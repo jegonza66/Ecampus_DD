@@ -284,6 +284,7 @@ def compare_make_DD_update(Old_ad_file, New_ad_file, date):
                         'net_price': 'Previous Data', 'tenant_id': 'Extra_id', 'course': 'Extra_Section',
                         'schedule_start': 'Extra_Start Date', 'schedule_end': 'Extra_End Date'})
     net_price_change['Net Price'] = Matching_New_ad_file['net_price'][net_price_change_index]
+
     net_price_df = Functions.make_full_df(net_price_change)
     net_price_df['Type of Change'] = 'net price change'
 
@@ -296,6 +297,7 @@ def compare_make_DD_update(Old_ad_file, New_ad_file, date):
                         'student_price': 'Previous Data', 'tenant_id': 'Extra_id', 'course': 'Extra_Section',
                         'schedule_start': 'Extra_Start Date', 'schedule_end': 'Extra_End Date'})
     student_price_change['Student Price'] = Matching_New_ad_file['student_price'][student_price_change_index]
+
     student_price_df = Functions.make_full_df(student_price_change)
     student_price_df['Type of Change'] = 'student price change'
 
@@ -307,7 +309,8 @@ def compare_make_DD_update(Old_ad_file, New_ad_file, date):
                         'schedule_start': 'Previous Data', 'tenant_id': 'Extra_id', 'course': 'Extra_Section',
                         'schedule_end': 'Extra_End Date'})
 
-    schedule_start_change['Extra_Start Date'] = schedule_start_change['Previous Data'].values
+    schedule_start_change['Start Date'] = pd.to_datetime(
+        Matching_New_ad_file['schedule_start'][schedule_start_change_index]).dt.strftime("%m/%d/%Y")
 
     schedule_start_df = Functions.make_full_df(schedule_start_change)
     schedule_start_df['Type of Change'] = 'start date change'
@@ -319,6 +322,9 @@ def compare_make_DD_update(Old_ad_file, New_ad_file, date):
         rename(columns={'tenant_name': 'School', 'term_name': 'Catalog', 'course_DD': 'Section', 'sku': 'SKU',
                         'schedule_end': 'Previous Data', 'tenant_id': 'Extra_id', 'course': 'Extra_Section',
                         'schedule_start': 'Extra_Start Date'})
+
+    schedule_end_change['End Date'] = pd.to_datetime(
+        Matching_New_ad_file['schedule_end'][schedule_end_change_index]).dt.strftime("%m/%d/%Y")
 
     schedule_end_df = Functions.make_full_df(schedule_end_change)
     schedule_end_df['Type of Change'] = 'end date change'
